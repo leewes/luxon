@@ -1,47 +1,61 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { onMounted, ref } from '@vue/runtime-core';
+import useDateStore from './stores/date';
+import { getTime, formatDate, dayTrimmed, monthTrimmed } from './utilities/time_utilities';
+import { getTime as getTimeMoment, formatDate as formatDateMoment } from './utilities/util_datetime'
+
+const locale = ref(document.documentElement.lang);
+const time = ref(getTime(undefined, undefined, locale.value));
+const trim = ref('day');
+const trimFunction = ref(dayTrimmed);
+
+function updateLocale(e) {
+  locale.value = e.target.value;
+}
+
+function getNewTime() {
+  time.value = getTime(undefined, undefined, locale.value)
+}
+
+function selectTrim() {
+  trim == 'day' ? trimFunction.value = dayTrimmed : trimFunction.value = monthTrimmed;
+}
+onMounted(()=> {
+  document.documentElement.lang = locale;
+})
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class='app'>
+    <h1>This is Luxon</h1>
+    <section>
+      <h3>Date in [{{ locale }}] locale: </h3>
+      <div>{{ time }}</div>
+      <div>{{getTimeMoment()}}</div>
+    </section>
+    <div>
+      <input v-model="locale">
+      <button @click="getNewTime()">Submit</button>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <br>
+    <div>
+      <h3>Format date for: </h3>
+      <p>2017-08-10 16:48:37 -0500</p>
+      This is in JP timezone (luxon)
+      <div>{{formatDate('16:48:37', "h:mm a")}}</div>
+      This is in UTC timezone (moment)
+      <div>{{formatDateMoment('2017-08-10 16:48:37 -0500',"h:mm A")}}</div>
+    </div>
+    <br>
+    <div>
+      <h3>Trim out [{{trim}}]</h3> 
+      <div>{{trimFunction('2017-08-10 16:48:37 -0500')}}</div>
+      <input v-model="trim">
+      <button @click="selectTrim()">Submit</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
