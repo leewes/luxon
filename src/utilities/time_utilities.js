@@ -1,12 +1,15 @@
 import { DateTime } from 'luxon'
 
-export const getTime = (timeZone = 'Asia/Tokyo', format = 'yyyy-MM-dd', locale = 'en') => {
-  const mapLocale = locale == 'ja' 
-    ? 'ja-JP' : locale == 'zh' 
-    ? 'zh-tw' : 'en';
-  const now = DateTime.now().setLocale(mapLocale);
-  
-  return now.setZone(timeZone).toFormat(format);
+
+
+export const getTime = (timeZone = 'Asia/Tokyo', format = 'yyyy-MM-dd') => {
+  const locale = document.documentElement.lang !== 'en' 
+    ? document.documentElement.lang == 'ja' 
+    ? 'ja' : document.documentElement.lang == 'zh' 
+    ? 'zh-tw' : 'en' : 'en';
+  const dt = DateTime.now().setLocale(locale);
+
+  return dt.setZone(timeZone).toFormat(format);
 }
 
 export const formatDate = (datetime, format = 'yyyy-MM-dd', timeZone = 'Asia/Tokyo', locale) => {
@@ -19,14 +22,10 @@ export const formatDate = (datetime, format = 'yyyy-MM-dd', timeZone = 'Asia/Tok
   return _date.toFormat(format)
 }
 
-
 // Todo: refactor redundant function, formatDate can be used
-//day of the month 
 export const dayTrimmed = (datetime) => {
-  
   return DateTime.fromFormat(datetime, 'yyyy-MM-dd HH:mm:ss ZZZ').toFormat("d");
 }
-// month name set by locale shortened to three characters
 export const monthTrimmed = (datetime) => {
   return DateTime.fromFormat(datetime, 'yyyy-MM-dd HH:mm:ss ZZZ').toFormat("MMM");
 }

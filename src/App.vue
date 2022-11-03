@@ -5,7 +5,7 @@ import { getTime, formatDate, dayTrimmed, monthTrimmed } from './utilities/time_
 import { getTime as getTimeMoment, formatDate as formatDateMoment } from './utilities/util_datetime'
 
 const locale = ref(document.documentElement.lang);
-const time = ref(getTime(undefined, undefined, locale.value));
+const time = ref(getTime());
 const trim = ref('day');
 const trimFunction = ref(dayTrimmed);
 
@@ -14,15 +14,14 @@ function updateLocale(e) {
 }
 
 function getNewTime() {
-  time.value = getTime(undefined, undefined, locale.value)
+  document.documentElement.lang = locale.value;
+  time.value = getTime()
 }
 
 function selectTrim() {
   trim == 'day' ? trimFunction.value = dayTrimmed : trimFunction.value = monthTrimmed;
 }
-onMounted(()=> {
-  document.documentElement.lang = locale;
-})
+
 </script>
 
 <template>
