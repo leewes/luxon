@@ -12,6 +12,9 @@ import {
 const locale = ref(document.documentElement.lang);
 const time = ref(getTime());
 const trim = ref("day");
+const date = ref("2017-08-10 16:48:37 -0500");
+const format = ref("h:mm a");
+const measurements = ref('years,months,days')
 const trimFunction = ref(dayTrimmed);
 const difference = ref({});
 const times = ref({
@@ -35,7 +38,7 @@ function selectTrim() {
 }
 
 function getDifference() {
-  difference.value = getDateDiff(times.value.date1, times.value.date2, ["months", "day", "seconds"])
+  difference.value = getDateDiff(times.value.date1, times.value.date2, measurements.value.split(','));
 }
 </script>
 
@@ -51,11 +54,11 @@ function getDifference() {
       <button @click="getNewTime()">Submit</button>
     </div>
     <br />
-    <div>
-      <h3>Format date for:</h3>
-      <p>2017-08-10 16:48:37 -0500</p>
-      This is in JP timezone (luxon)
-      <div>{{ formatDate("2017-08-10 16:48:37 -0500", "h:mm a") }}</div>
+    <div class="wrapper">
+      <h3>Format date in Asia/Tokyo Timezone:</h3>
+      <input v-model="date">
+      <input v-model="format">
+      <div>{{ formatDate(date, format) }}</div>
     </div>
     <br />
     <div>
@@ -70,11 +73,27 @@ function getDifference() {
       <div v-for="(measurement, value) in difference">
         <div>{{`${measurement} ${value}`}}</div>
       </div>
-      <input v-model="times.date1" />
-      <input v-model="times.date2" />
+      <div class="wrapper">
+        <input v-model="times.date1" />
+        <input v-model="times.date2" />
+        <input v-model="measurements"> <span>* comma separated</span>
+      </div>
       <button @click="getDifference()">Calculate</button>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+span {
+  font-size: 10px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper > input {
+  width: 15em;
+}
+</style>
