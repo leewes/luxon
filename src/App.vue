@@ -41,7 +41,7 @@ function selectTrim() {
       <h3>Format date for: </h3>
       <p>2017-08-10 16:48:37 -0500</p>
       This is in JP timezone (luxon)
-      <div>{{formatDate('16:48:37', "h:mm a")}}</div>
+      <div>{{formatDate('2017-08-10 16:48:37 -0500', "h:mm a")}}</div>
       This is in UTC timezone (moment)
       <div>{{formatDateMoment('2017-08-10 16:48:37 -0500',"h:mm A")}}</div>
     </div>

@@ -11,7 +11,7 @@ export const getTime = (timeZone = 'Asia/Tokyo', format = 'yyyy-MM-dd') => {
 }
 
 export const formatDate = (datetime, format = 'yyyy-MM-dd', timeZone = 'Asia/Tokyo', locale) => {
-  const _date = DateTime.fromISO(datetime).setZone(timeZone);
+  const _date = DateTime.fromFormat(datetime, 'yyyy-MM-dd HH:mm:ss ZZZ').setZone(timeZone);
     
   if (locale) {
     _date.setLocale(locale)
