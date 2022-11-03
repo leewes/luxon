@@ -1,7 +1,5 @@
 import { DateTime } from 'luxon'
 
-
-
 export const getTime = (timeZone = 'Asia/Tokyo', format = 'yyyy-MM-dd') => {
   const locale = document.documentElement.lang !== 'en' 
     ? document.documentElement.lang == 'ja' 
