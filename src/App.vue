@@ -8,10 +8,6 @@ import {
   monthTrimmed,
   getDateDiff
 } from "./utilities/time_utilities";
-import {
-  getTime as getTimeMoment,
-  formatDate as formatDateMoment,
-} from "./utilities/util_datetime";
 
 const locale = ref(document.documentElement.lang);
 const time = ref(getTime());
@@ -49,7 +45,6 @@ function getDifference() {
     <section>
       <h3>Date in [{{ locale }}] locale:</h3>
       <div>{{ time }}</div>
-      <div>{{ getTimeMoment() }}</div>
     </section>
     <div>
       <input v-model="locale" />
@@ -61,8 +56,6 @@ function getDifference() {
       <p>2017-08-10 16:48:37 -0500</p>
       This is in JP timezone (luxon)
       <div>{{ formatDate("2017-08-10 16:48:37 -0500", "h:mm a") }}</div>
-      This is in UTC timezone (moment)
-      <div>{{ formatDateMoment("2017-08-10 16:48:37 -0500", "h:mm A") }}</div>
     </div>
     <br />
     <div>
