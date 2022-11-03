@@ -30,5 +30,6 @@ export const monthTrimmed = (datetime) => {
 
 // math diff between two dates
 export const getDateDiff = (date1, date2, measurement = 'day') => {
-  return moment(date2).diff(moment(date1), measurement)  
+  return DateTime.fromFormat(date2,'yyyy-MM-dd HH:mm:ss ZZZ')
+          .diff(DateTime.fromFormat(date1,'yyyy-MM-dd HH:mm:ss ZZZ'), measurement).toObject();
 }
