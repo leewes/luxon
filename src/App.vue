@@ -13,6 +13,7 @@ const locale = ref(document.documentElement.lang);
 const time = ref(getTime());
 const trim = ref("day");
 const date = ref("2017-08-10 16:48:37 -0500");
+const timezone = ref('Asia/Tokyo')
 const format = ref("h:mm a");
 const measurements = ref('years,months,days')
 const trimFunction = ref(dayTrimmed);
@@ -55,10 +56,11 @@ function getDifference() {
     </div>
     <br />
     <div class="wrapper">
-      <h3>Format date in Asia/Tokyo Timezone:</h3>
+      <h3>Format date in [{{ timezone }}] Timezone:</h3>
+      <input v-model="timezone">
       <input v-model="date">
       <input v-model="format">
-      <div>{{ formatDate(date, format) }}</div>
+      <div>{{ formatDate(date, format, timezone) }}</div>
     </div>
     <br />
     <div>
@@ -70,8 +72,8 @@ function getDifference() {
     <br />
     <div>
       <h3>The difference between the times is:</h3>
-      <div v-for="(measurement, value) in difference">
-        <div>{{`${measurement} ${value}`}}</div>
+      <div v-for="(measurement, value) in difference" :key="measurement">
+        <div >{{`${measurement} ${value}`}}</div>
       </div>
       <div class="wrapper">
         <input v-model="times.date1" />
